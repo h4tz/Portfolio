@@ -4,7 +4,12 @@ import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { site } from "@/content/site";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "http://localhost:3001";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${site.name} — ${site.role} · Backend, Full-Stack & AI`,
     template: `%s — ${site.name}`,
@@ -28,7 +33,7 @@ export const metadata: Metadata = {
     siteName: site.name,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${site.name} — ${site.role}`,
     description: site.tagline,
   },

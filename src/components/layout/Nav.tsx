@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 
@@ -16,7 +15,6 @@ const links = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -25,10 +23,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // close the mobile menu on route change
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  // close the mobile menu on route change handled by link onClick below
 
   // lock body scroll while the menu is open
   useEffect(() => {

@@ -27,11 +27,10 @@ export function Reveal({
     const node = ref.current;
     if (!node) return;
 
-    // If IntersectionObserver is unavailable, just show content.
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
+    // No IntersectionObserver (very old browser): leave content visible via the
+    // `@media (scripting: none)` / reduced-motion CSS fallbacks rather than
+    // calling setState synchronously here.
+    if (typeof IntersectionObserver === "undefined") return;
 
     const observer = new IntersectionObserver(
       (entries) => {
