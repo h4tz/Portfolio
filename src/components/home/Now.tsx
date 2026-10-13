@@ -23,7 +23,7 @@ export function Now() {
                 I&apos;m {site.name} — a software engineer with 2+ years across
                 frontend, full-stack, backend, and AI. I take products from idea
                 to running software, and I care about the boring parts that make
-                things reliable.
+                things <span className="serif italic-accent">reliable.</span>
               </p>
               <p className="measure mt-6 leading-relaxed text-text-dim">
                 Right now I&apos;m deep in backend and infrastructure work, and

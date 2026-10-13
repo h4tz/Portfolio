@@ -1,8 +1,26 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { site } from "@/content/site";
+
+// Display serif — editorial voice for headlines, numerals, pull-quotes.
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+// Mono — meta labels, code, small caps detail.
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
@@ -45,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={`h-full ${serif.variable} ${mono.variable}`}>
       <body className="grain flex min-h-full flex-col bg-bg text-text antialiased">
         <a
           href="#main"

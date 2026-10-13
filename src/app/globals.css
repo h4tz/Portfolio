@@ -8,8 +8,9 @@
 @theme inline {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+  --font-mono: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
+  --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
 
   /* surfaces */
   --color-bg: #0a0a0b;
@@ -69,8 +70,15 @@ body {
 
 /* --- typographic helpers --- */
 .display {
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
   line-height: 0.98;
+  font-weight: 400;
+}
+.sans-display {
+  font-family: var(--font-sans);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
   font-weight: 600;
 }
 .label {
@@ -79,6 +87,15 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 500;
+}
+.serif {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+.italic-accent {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--color-accent);
 }
 .measure {
   max-width: 68ch;
@@ -146,5 +163,84 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ============================================================
+   SIGNATURE MOTION — the "studio" life in the page
+   ============================================================ */
+
+/* --- marquee: seamless horizontal scroll (duplicated track) --- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 32s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* --- blinking caret for the hero --- */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret {
+  display: inline-block;
+  width: 0.5ch;
+  margin-left: 0.1ch;
+  background: var(--color-accent);
+  animation: caret-blink 1.1s steps(1, end) infinite;
+}
+
+/* --- accent underline that draws in on hover --- */
+.draw-underline {
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.draw-underline:hover,
+.draw-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* --- magnetic hover target (JS sets --mx / --my) --- */
+.magnetic {
+  transform: translate(var(--mx, 0), var(--my, 0));
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* reduced motion — freeze the signature motion, keep content static */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee {
+    overflow-x: auto;
+  }
+  .caret {
+    animation: none;
+  }
+  .magnetic {
+    transform: none !important;
   }
 }

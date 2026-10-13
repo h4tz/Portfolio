@@ -17,13 +17,20 @@ export function SelectedWork() {
           </p>
           <Link
             href="/work"
-            className="link-underline text-sm text-text-dim hover:text-text"
+            className="draw-underline text-sm text-text-dim hover:text-text"
           >
             All projects →
           </Link>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2">
+        <Reveal>
+          <h2 className="max-w-3xl text-[clamp(1.9rem,4.5vw,3.25rem)]">
+            <span className="sans-display text-text">A few things I&apos;ve</span>{" "}
+            <span className="serif italic-accent">shipped.</span>
+          </h2>
+        </Reveal>
+
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {featured.map((p, i) => (
             <Reveal key={p.slug} delay={i * 60}>
               <ProjectCard project={p} />

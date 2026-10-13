@@ -1,6 +1,7 @@
 import { site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { Magnetic } from "@/components/ui/Magnetic";
 
 export function ContactStrip() {
   return (
@@ -11,10 +12,11 @@ export function ContactStrip() {
             <span className="text-accent">05</span>
             <span className="mx-2 text-line-strong">/</span>Contact
           </p>
-          <h2 className="display mt-6 max-w-3xl text-[clamp(2rem,5vw,3.75rem)] text-text">
-            Have something to build? Let&apos;s talk.
+          <h2 className="mt-6 max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)]">
+            <span className="sans-display text-text">Have something to</span>{" "}
+            <span className="serif italic-accent">build?</span>
           </h2>
-          <p className="measure mt-6 leading-relaxed text-text-dim">
+          <p className="measure mt-6 text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed text-text-dim">
             Freelance project, a full-time role, or a quick technical question —
             email is the fastest way to reach me.
           </p>
@@ -22,12 +24,14 @@ export function ContactStrip() {
 
         <Reveal delay={80}>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href={`mailto:${site.email}`}
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-on-accent transition-colors hover:bg-accent-dim hover:text-text"
-            >
-              {site.email}
-            </a>
+            <Magnetic>
+              <a
+                href={`mailto:${site.email}`}
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-on-accent transition-colors hover:bg-accent-dim hover:text-text"
+              >
+                {site.email}
+              </a>
+            </Magnetic>
             <a
               href={site.linkedin}
               target="_blank"

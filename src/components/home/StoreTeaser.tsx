@@ -21,8 +21,11 @@ export function StoreTeaser() {
                 <span className="text-accent">03</span>
                 <span className="mx-2 text-line-strong">/</span>Digital Store
               </p>
-              <h2 className="display mt-6 text-[clamp(2rem,4.5vw,3.25rem)] text-text">
-                Websites for small businesses, productized.
+              <h2 className="mt-6 text-[clamp(2rem,5vw,3.75rem)]">
+                <span className="sans-display text-text">
+                  Websites for small businesses,
+                </span>{" "}
+                <span className="serif italic-accent">productized.</span>
               </h2>
               <p className="measure mt-6 leading-relaxed text-text-dim">
                 A fixed-scope, done-for-you website for local businesses —
