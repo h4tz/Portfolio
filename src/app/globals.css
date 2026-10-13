@@ -244,25 +244,3 @@ body {
     transform: none !important;
   }
 }
-
-/* ============================================================
-   SPIDER SCENE — interactive web background + spider cursor
-   The .spider-cursor class is toggled by SpiderScene only on
-   fine-pointer, motion-friendly devices. Everywhere else the
-   native cursor stays and the spider loop never runs.
-   ============================================================ */
-.spider-cursor,
-.spider-cursor a,
-.spider-cursor button,
-.spider-cursor [role="button"],
-.spider-cursor input,
-.spider-cursor textarea,
-.spider-cursor select,
-.spider-cursor label {
-  cursor: none;
-}
-
-/* The silk/amber cursor should still read over raised surfaces. */
-.spider-cursor ::selection {
-  cursor: text;
-}
