@@ -3,6 +3,8 @@ import { JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { WebField } from "@/components/fx/WebField";
+import { SpiderFollower } from "@/components/fx/SpiderFollower";
 import { site } from "@/content/site";
 
 // Display serif — editorial voice for headlines, numerals, pull-quotes.
@@ -71,6 +73,8 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <WebField />
+        <SpiderFollower />
         <Nav />
         <main id="main" className="flex-1">
           {children}

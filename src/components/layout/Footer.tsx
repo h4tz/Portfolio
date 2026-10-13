@@ -11,7 +11,7 @@ const navLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-bg-sunken">
+    <footer className="site-footer border-t border-line bg-bg-sunken">
       <div className="mx-auto max-w-[88rem] px-5 py-12 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
