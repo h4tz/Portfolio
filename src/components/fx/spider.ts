@@ -33,6 +33,9 @@ export class SpiderCursor {
   crawl = 0;
   speed = 0;
   alpha = 0;
+  idle = 0;
+  resting = false;
+  idlePhase = 0;
 
   /** active=false fades it out (e.g. over a text field) without teleporting it. */
   update(
@@ -56,15 +59,22 @@ export class SpiderCursor {
       this.y += this.vy;
 
       this.speed = Math.hypot(this.vx, this.vy);
-      if (this.speed > 0.2) {
+      // idle tracking — after a moment of stillness the spider "rests"
+      if (this.speed < 0.35) this.idle += dt;
+      else this.idle = 0;
+      this.resting = this.idle > 26; // ~0.4s of stillness
+
+      if (this.speed > 0.2 && !this.resting) {
         const target = Math.atan2(this.vy, this.vx);
         let diff = target - this.angle;
         while (diff > Math.PI) diff -= Math.PI * 2;
         while (diff < -Math.PI) diff += Math.PI * 2;
         this.angle += diff * 0.14;
       }
-      // legs crawl more the faster it travels
-      this.crawl += this.speed * 0.5 + 0.06 * Math.min(dt, 2);
+      // legs crawl while travelling; at rest only a faint idle twitch
+      this.crawl +=
+        this.speed * 0.5 + (this.resting ? 0.015 : 0.06) * Math.min(dt, 2);
+      this.idlePhase += 0.03 * Math.min(dt, 2);
       this.scale += (1 - this.scale) * 0.12;
       this.alpha += (1 - this.alpha) * 0.15;
     } else {
@@ -93,8 +103,10 @@ export class SpiderCursor {
 
     const speedN = Math.min(1, this.speed * 0.05);
     const amp = 2.5 + speedN * 5;
-    const splay = state.hover ? 1.16 : 1;
-    const comp = state.down ? 0.82 : 1;
+    const splay = (state.hover ? 1.16 : 1) * (this.resting ? 0.94 : 1);
+    const comp = state.down ? 0.82 : this.resting ? 0.9 : 1;
+    // gentle breathing bob while resting — legs stay planted, body rises/falls
+    const bob = this.resting ? Math.sin(this.idlePhase) * 0.5 : 0;
 
     // --- legs: 8 two-segment limbs with a per-leg phase so they ripple ---
     ctx.strokeStyle = pal.accent;
@@ -130,19 +142,19 @@ export class SpiderCursor {
     ctx.strokeStyle = pal.accent;
     ctx.lineWidth = 1.6;
     ctx.beginPath();
-    ctx.ellipse(-5, 0, 6, 5, 0, 0, Math.PI * 2); // abdomen
+    ctx.ellipse(-5, bob, 6, 5, 0, 0, Math.PI * 2); // abdomen
     ctx.fill();
     ctx.stroke();
     ctx.beginPath();
-    ctx.ellipse(4, 0, 4.5, 3.8, 0, 0, Math.PI * 2); // cephalothorax
+    ctx.ellipse(4, bob, 4.5, 3.8, 0, 0, Math.PI * 2); // cephalothorax
     ctx.fill();
     ctx.stroke();
 
     // --- eyes: two pinpricks for a face and a sense of direction ---
     ctx.fillStyle = pal.text;
     ctx.beginPath();
-    ctx.arc(6.5, -1.8, 1, 0, Math.PI * 2);
-    ctx.arc(6.5, 1.8, 1, 0, Math.PI * 2);
+    ctx.arc(6.5, bob - 1.8, 1, 0, Math.PI * 2);
+    ctx.arc(6.5, bob + 1.8, 1, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();

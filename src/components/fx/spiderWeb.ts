@@ -78,15 +78,43 @@ export class SpiderWeb {
     const nodes: WNode[] = [];
     const strands: WStrand[] = [];
 
-    const R = w < 640 ? 11 : w < 1100 ? 14 : 16; // radials
-    const S = 10; // segments per radial -> interior levels 1..S-1
-    const K = S - 1; // rings (one per interior level)
+    // Primary orb — upper-right, large, in the open negative space.
+    const hx1 = w * (w < 640 ? 0.68 : 0.74);
+    const hy1 = h * 0.24;
+    const R1 = w < 640 ? 11 : w < 1100 ? 14 : 16;
+    this.addOrb(
+      nodes,
+      strands,
+      hx1,
+      hy1,
+      this.cornerLen(hx1, hy1, w, h) * 1.18,
+      R1,
+      10,
+    );
 
-    // Hub sits off toward the upper-right, in open negative space.
-    const hx = w * (w < 640 ? 0.68 : 0.74);
-    const hy = h * 0.24;
+    // Secondary orb — bottom-left, smaller, peeking in from the corner so the
+    // effect reads as intentional across the page, not a single hero prop.
+    if (w >= 640) {
+      const hx2 = w * 0.12;
+      const hy2 = h * 0.84;
+      this.addOrb(
+        nodes,
+        strands,
+        hx2,
+        hy2,
+        this.cornerLen(hx2, hy2, w, h) * 0.62,
+        10,
+        8,
+      );
+    }
 
-    // Anchors reach a little past the farthest corner so threads run off-screen.
+    this.nodes = nodes;
+    this.strands = strands;
+    this.fxa = new Float32Array(nodes.length);
+    this.fya = new Float32Array(nodes.length);
+  }
+
+  private cornerLen(hx: number, hy: number, w: number, h: number) {
     let maxLen = 0;
     for (const [cx, cy] of [
       [0, 0],
@@ -97,7 +125,19 @@ export class SpiderWeb {
       const d = dist(hx, hy, cx, cy);
       if (d > maxLen) maxLen = d;
     }
-    const baseLen = maxLen * 1.18;
+    return maxLen;
+  }
+
+  private addOrb(
+    nodes: WNode[],
+    strands: WStrand[],
+    hx: number,
+    hy: number,
+    baseLen: number,
+    R: number,
+    S: number,
+  ) {
+    const K = S - 1; // rings (one per interior level)
 
     const add = (x: number, y: number, pin: boolean) => {
       nodes.push({ x, y, rx: x, ry: y, vx: 0, vy: 0, pin, glow: 0 });
@@ -188,11 +228,6 @@ export class SpiderWeb {
         });
       }
     }
-
-    this.nodes = nodes;
-    this.strands = strands;
-    this.fxa = new Float32Array(nodes.length);
-    this.fya = new Float32Array(nodes.length);
   }
 
   /** Advance the spring simulation one step. dt is normalized (~1 at 60fps). */
