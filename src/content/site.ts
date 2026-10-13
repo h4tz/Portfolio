@@ -1,0 +1,22 @@
+export const site = {
+  name: "Hari Tiwari",
+  fullName: "Hari Anant Tiwari",
+  role: "Software Engineer",
+  disciplines: ["Backend", "Full-Stack", "AI Engineering"],
+  tagline:
+    "I build useful digital products, backend systems, integrations, and AI-powered workflows.",
+  intro:
+    "One-person studio. I design and build web products end to end — Python/Django and FastAPI backends, React/Next.js interfaces, third-party integrations, and AI-powered workflows.",
+  email: "hari.anant777@gmail.com",
+  phone: "+91 8448557926",
+  phoneHref: "+918448557926",
+  location: "Noida / Delhi NCR",
+  availability: ["Remote", "Immediate Joiner", "Open to Full-Time Roles"],
+  github: "https://github.com/h4tz",
+  githubHandle: "h4tz",
+  linkedin: "https://www.linkedin.com/in/h4tz/",
+  linkedinHandle: "h4tz",
+  resume: "/resume.pdf",
+  year: 2026,
+  headlineMetric: "≈40% lower API latency through workload offloading",
+} as const;

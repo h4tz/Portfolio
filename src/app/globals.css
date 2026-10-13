@@ -1,26 +1,142 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ============================================================
+   HARI TIWARI — design tokens
+   Minimal engineering portfolio × independent digital studio
+   Near-black canvas · warm off-white type · single amber accent
+   ============================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* surfaces */
+  --color-bg: #0a0a0b;
+  --color-bg-raised: #111113;
+  --color-bg-sunken: #08080a;
+
+  /* lines */
+  --color-line: #26262a;
+  --color-line-strong: #3a3a40;
+
+  /* type */
+  --color-text: #ecebe8;
+  --color-text-dim: #a3a29d;
+  --color-text-mute: #6f6e6a;
+
+  /* accent — single amber */
+  --color-accent: #d9a441;
+  --color-accent-dim: #8a6a2a;
+  --color-on-accent: #141210;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --header-h: 4rem;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1.5rem);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* selection */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* focus — always visible, never removed */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- typographic helpers --- */
+.display {
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  font-weight: 600;
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.measure {
+  max-width: 68ch;
+}
+.measure-tight {
+  max-width: 52ch;
+}
+
+/* --- link underline reveal --- */
+.link-underline {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 150ms ease;
+}
+.link-underline:hover {
+  text-decoration-color: currentColor;
+}
+
+/* --- entrance (scroll reveal) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- subtle grain overlay --- */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* reduced motion — kill transforms/transitions, keep it instant */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
