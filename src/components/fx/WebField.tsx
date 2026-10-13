@@ -32,9 +32,15 @@ export function WebField() {
     const css = getComputedStyle(document.documentElement);
     const read = (name: string, fallback: string) =>
       (css.getPropertyValue(name) || "").trim() || fallback;
-    const C_LINE = read("--color-line", "#26262a");
-    const C_LINE_STRONG = read("--color-line-strong", "#3a3a40");
     const C_ACCENT = read("--color-accent", "#d9a441");
+    // Deliberately brighter than the on-page --color-line tokens. Those tokens
+    // are tuned for hairline borders on near-black; a web drawn in them at
+    // 10–26% alpha renders ~rgb(17,17,18) on #0a0a0b — technically present but
+    // invisible. These lift the field just enough to read as a lit constellation
+    // without tipping into neon.
+    const C_STRAND = "#44444f";
+    const C_NODE = "#8f8f9a";
+    const C_GLOW = "128,128,142";
 
     type Node = {
       x: number;
@@ -70,7 +76,7 @@ export function WebField() {
           oy: y,
           vx: (Math.random() - 0.5) * 0.12,
           vy: (Math.random() - 0.5) * 0.12,
-          r: Math.random() * 1.3 + 0.6,
+          r: Math.random() * 1.5 + 1.1,
           ph: Math.random() * Math.PI * 2,
         });
       }
@@ -146,8 +152,8 @@ export function WebField() {
             if (pd2 < rad2) heat = 1 - Math.sqrt(pd2) / rad;
           }
           const base = 1 - Math.sqrt(d2) / Math.sqrt(link2);
-          ctx.globalAlpha = (0.1 + base * 0.16) * (1 + heat * 1.6);
-          ctx.strokeStyle = heat > 0.02 ? C_ACCENT : C_LINE;
+          ctx.globalAlpha = (0.22 + base * 0.3) * (1 + heat * 1.4);
+          ctx.strokeStyle = heat > 0.04 ? C_ACCENT : C_STRAND;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -156,7 +162,8 @@ export function WebField() {
         }
       }
 
-      // nodes
+      // nodes — a soft halo first, then a crisp dot, so each reads as a lit
+      // point in the web rather than a dim speck lost in the background
       for (const n of nodes) {
         let heat = 0;
         if (pointer.on) {
@@ -165,10 +172,17 @@ export function WebField() {
           const d2 = dx * dx + dy * dy;
           if (d2 < rad2) heat = 1 - Math.sqrt(d2) / rad;
         }
-        ctx.globalAlpha = 0.5 + heat * 0.5;
-        ctx.fillStyle = heat > 0.05 ? C_ACCENT : C_LINE_STRONG;
+        // halo
+        ctx.globalAlpha = 0.06 + heat * 0.12;
+        ctx.fillStyle = heat > 0.05 ? C_ACCENT : C_GLOW;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r + heat * 1.2, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, n.r * 5, 0, Math.PI * 2);
+        ctx.fill();
+        // crisp dot
+        ctx.globalAlpha = 0.75 + heat * 0.25;
+        ctx.fillStyle = heat > 0.05 ? C_ACCENT : C_NODE;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r + heat * 1.4, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;

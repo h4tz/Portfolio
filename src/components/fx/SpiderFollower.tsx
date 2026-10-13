@@ -73,9 +73,17 @@ export function SpiderFollower() {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      ctx.scale(s, s);
+      ctx.scale(s * 1.3, s * 1.3);
 
       const stroke = C_ACCENT;
+
+      // faint presence halo so the spider still reads over busy content
+      ctx.globalAlpha = 0.09;
+      ctx.fillStyle = C_ACCENT;
+      ctx.beginPath();
+      ctx.arc(0, 0, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
 
       // legs — 8, drawn as two-segment limbs with a per-leg phase so they
       // ripple as it moves (the ripple amplitude tracks speed below)
