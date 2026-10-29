@@ -78,6 +78,36 @@ export function Footer() {
                 </li>
                 <li>
                   <a
+                    href={site.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline text-sm text-text-dim hover:text-text"
+                  >
+                    X (Twitter)
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={site.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline text-sm text-text-dim hover:text-text"
+                  >
+                    YouTube
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={site.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline text-sm text-text-dim hover:text-text"
+                  >
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
                     href={site.resume}
                     className="link-underline text-sm text-text-dim hover:text-text"
                   >

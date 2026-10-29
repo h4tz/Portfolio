@@ -31,6 +31,27 @@ const channels = [
     note: "Code and open projects.",
   },
   {
+    label: "X (Twitter)",
+    value: `x.com/${site.twitterHandle}`,
+    href: site.twitter,
+    external: true,
+    note: "Short-form thoughts and updates.",
+  },
+  {
+    label: "YouTube",
+    value: site.youtubeHandle,
+    href: site.youtube,
+    external: true,
+    note: "Long-form technical content.",
+  },
+  {
+    label: "Instagram",
+    value: `instagram.com/${site.instagramHandle}`,
+    href: site.instagram,
+    external: true,
+    note: "Behind the scenes and visual work.",
+  },
+  {
     label: "Phone",
     value: site.phone,
     href: `tel:${site.phoneHref}`,
